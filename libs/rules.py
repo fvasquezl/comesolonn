@@ -32,4 +32,12 @@ class Rule:
                     self.find_child(j, i, 2, 5) # find right child
             self.find_horizontal([*array_range], 3) # find horizontal child
 
-
+    def get_rules(self):
+        return self.rules
+    
+    def get_rule(self, rule=None):
+        if rule is None:
+            return self.rules
+        if not isinstance(rule, int):
+            raise TypeError("The rule must be a numeric value")
+        return self.rules.get(rule, []) # Return None if rule not found
