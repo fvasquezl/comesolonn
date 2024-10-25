@@ -21,9 +21,10 @@ class comesolo:
         return self.rule.get_rule(rule)
     
     def validate(self, origin, destination):
-        middle = (origin + destination) // 2
-        if self.tablero[origin] == 1 and self.tablero[middle] == 1 and self.tablero[destination] == 0:
-            return True
+        if origin in self.get_rules(destination):
+            middle = (origin + destination) // 2
+            if self.tablero[origin] == 1 and self.tablero[middle] == 1 and self.tablero[destination] == 0:
+                return True
         return False
     
     def move(self, origin, destination):
@@ -36,19 +37,12 @@ class comesolo:
         return False
 
     def valid_moves(self):
-        movements = []
-        for index, value in enumerate(self.tablero):
-            print(self.tablero)
-            if value == 0:
-                bytes_aleatorios = os.urandom(8)
-                semilla = int.from_bytes(bytes_aleatorios, byteorder="big")
-                random.seed(semilla)
-                randpos = random.choice(self.get_rule(index))
-                if self.validate(randpos, index):
-                    movements.append(randpos)
-                    self.move(randpos, index)
-        print(movements)
-        return movements
+        movimientos_validos = []
+        for destino in range(0, 15):
+            for origen in range(0, 15):
+                if self.movimiento_valido(destino, origen):
+                    movimientos_validos.append((origen, destino))
+        return movimientos_validos
     
     def play(self):
         boards = []
